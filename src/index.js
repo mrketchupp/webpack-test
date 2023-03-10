@@ -1,4 +1,5 @@
 console.log('Beidou ❤️‍🔥');
+import './styles/main.css';
 
 (async function App() {
     const main = document.getElementById('main');
