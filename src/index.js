@@ -2,9 +2,10 @@ console.log('Beidou ❤️‍🔥');
 import './styles/main.css';
 
 (async function App() {
-    const main = document.getElementById('main');
-    const title = document.createElement('h1');
-    title.textContent = 'Beidou ❤️‍🔥';
-    title.className = 'text-slate-900 dark:text-white mt-5 text-base font-medium tracking-tight'
-    main.appendChild(title);
+    const card = document.getElementById('card');
+    const ref = document.getElementById('subtitle')
+    const title = document.createElement('h4');
+    title.textContent = 'Amelia Watson';
+    title.className = 'mb-1 text-xl font-medium text-gray-900 dark:text-white'
+    card.insertBefore(title, ref);
 })();
