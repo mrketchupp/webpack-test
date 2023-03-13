@@ -2,7 +2,7 @@ console.log('Beidou ❤️‍🔥');
 import '@styles/main.css';
 
 // Declarar API
-const API = process.env.API_URL;
+const API = 'https://api.jikan.moe/v4';
 console.log(API);
 
 const appNode = document.getElementById('app');
