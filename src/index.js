@@ -1,6 +1,6 @@
 console.log('Beidou ❤️‍🔥');
-import './styles/main.css';
-import amelia from './assets/images/ame-smile.png';
+import '@styles/main.css';
+import amelia from '@images/ame-smile.png';
 
 (async function App() {
     const card = document.getElementById('card');
