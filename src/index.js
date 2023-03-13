@@ -7,6 +7,12 @@ console.log(API);
 
 const appNode = document.getElementById('app');
 
+// Busqueda de anime
+const animeSearch = document.getElementById('tacos');
+console.log(animeSearch);
+animeSearch.addEventListener('input', ()=>{getAnime(API, animeSearch.value)});
+
+
 // Llamada a API
 const fetchData = async (urlAPI)=> {
     const resolve = await fetch(urlAPI);
@@ -88,6 +94,10 @@ const getCharacter = async (urlAPI, mal_id)=> {
     appNode.append(...todosLosItems);
 }
 
-
-
-getCharacter(API, '48926');
+// Buscar anime
+const getAnime = async (urlAPI, busqueda)=>{
+    const anime = await fetchData(`${urlAPI}/anime?q=${busqueda}&limit=1`)
+    console.log(anime.data[0].mal_id);
+    const mal_id = anime.data[0].mal_id
+    getCharacter(API, mal_id);
+}
