@@ -2,6 +2,11 @@ console.log('Beidou ❤️‍🔥');
 import '@styles/main.css';
 import amelia from '@images/ame-smile.png';
 
+// Declarar API
+const API = process.env.API;
+console.log(API);
+
+
 (async function App() {
     const card = document.getElementById('card');
     const ref = document.getElementById('subtitle')
