@@ -8,9 +8,12 @@ console.log(API);
 const appNode = document.getElementById('app');
 
 // Busqueda de anime
-const animeSearch = document.getElementById('tacos');
-console.log(animeSearch);
-animeSearch.addEventListener('input', ()=>{getAnime(API, animeSearch.value)});
+const searchKey = document.getElementById('searchKey');
+searchKey.addEventListener('keydown', (e)=>{e.key == 'Enter' ? getAnime(API, searchKey.value): ""});
+
+const searchButton = document.getElementById('searchButton');
+console.log(searchButton)
+searchButton.addEventListener('click', ()=>{getAnime(API, searchKey.value)});
 
 
 // Llamada a API
@@ -28,33 +31,24 @@ const getCharacter = async (urlAPI, mal_id)=> {
     console.log(character.data[0].voice_actors[1].person.name);
 
     const todosLosItems = [];
-
     character.data.forEach(item => {
         // Template
-        console.log(item.character.name)
-
-        // boton1
-        const boton1 = document.createElement('a');
-        boton1.className = 'mb-2 md:mb-0 md:mr-2 md:inline-flex md:items-center md:space-x-3 px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800';
-        boton1.href = '#';
-        boton1.textContent = 'Add friend';
-
-        // boton2
-        const boton2 = document.createElement('a');
-        boton2.className = 'md:inline-flex md:items-center  md:space-x-3 px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700';
-        boton2.href = '#';
-        boton2.textContent = 'Message';
-
-        // cajaBotones
-        const cajaBotones = document.createElement('div');
-        cajaBotones.className = 'flex flex-col flex-nowrap mt-4 md:flex-row md:mt-6'
-        cajaBotones.append(boton1, boton2);
+        // const segundoActorDeVoz = item.voice_actors[1];
+        // const result = segundoActorDeVoz.person.name !== undefined ? segundoActorDeVoz.person.name : "no existe";
+        // console.log(result);
 
         // crear actor de voz
         const actor = document.createElement('span');
-        const nameActor = item.character.name;
-        actor.textContent = nameActor.replace(",", "");
-        actor.className = 'text-sm text-gray-500 dark:text-gray-400';
+        // Comprobar si el nombre existe
+        if (item?.voice_actors[1]?.person?.name === undefined) {
+            const nameActor = "No existe";
+            actor.textContent = nameActor.replace(",", "");
+            actor.className = 'text-sm text-gray-500 dark:text-gray-400';
+        } else {
+            const nameActor = item.voice_actors[1].person.name;
+            actor.textContent = nameActor.replace(",", "");
+            actor.className = 'text-sm text-gray-500 dark:text-gray-400';
+        }
 
         // crear imagen
         const image = document.createElement('img');
@@ -76,16 +70,16 @@ const getCharacter = async (urlAPI, mal_id)=> {
         // hijo2
         const hijo2 = document.createElement('div');
         hijo2.className = 'grid place-items-center mt-4 text-center space-y-3 md:mt-6';
-        hijo2.append(coverImg, nombre, actor, cajaBotones);
+        hijo2.append(coverImg, nombre, actor);
 
         // hijo1
         const hijo1 = document.createElement('div');
-        hijo1.className = 'flex flex-col items-center pb-10';
+        hijo1.className = 'flex flex-col items-center pb-6';
         hijo1.append(hijo2);
 
         // padre
         const padre = document.createElement('div');
-        padre.className = 'w-full min-w-232px max-w-sm pl-4 pr-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700';
+        padre.className = 'w-full min-w-232px max-w-240px pl-4 pr-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700';
         padre.append(hijo1);
 
         todosLosItems.push(padre);
@@ -96,8 +90,16 @@ const getCharacter = async (urlAPI, mal_id)=> {
 
 // Buscar anime
 const getAnime = async (urlAPI, busqueda)=>{
+    // Limpiar los resultados anteriores
+    while (appNode.hasChildNodes()) {
+        appNode.removeChild(appNode.firstChild);
+    }
+
+    // Realizar la busaqueda y conseguir mal_id del anime
     const anime = await fetchData(`${urlAPI}/anime?q=${busqueda}&limit=1`)
     console.log(anime.data[0].mal_id);
     const mal_id = anime.data[0].mal_id
+
+    // Enviabamos el mal_id y listamos los personajes en el DOM
     getCharacter(API, mal_id);
 }

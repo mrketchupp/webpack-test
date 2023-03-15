@@ -4,7 +4,7 @@ module.exports = {
     theme: {
         extend: {},
         fontFamily: {
-            'sans': ['Rubik-spray-paint', 'sans-serif'],
+            'sans': ['nunito', 'sans-serif'],
         }
     },
     plugins: [],
