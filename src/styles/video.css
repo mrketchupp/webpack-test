@@ -1,0 +1,15 @@
+/* Cambiar el color del texto en los controles de video */
+video::-webkit-media-controls-enclosure {
+    color: #fff;
+}
+
+/* Cambiar el tamaño de los botones de los controles de video */
+video::-webkit-media-controls-button {
+    width: 40px;
+    height: 40px;
+}
+
+/* Cambiar el color del fondo de los botones de los controles de video */
+video::-webkit-media-controls-play-button {
+    background-color: #f00;
+}

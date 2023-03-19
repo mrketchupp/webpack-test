@@ -7,7 +7,10 @@ const Dotenv = require('dotenv-webpack');
 // const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-    entry: './src/index.js',
+    entry: {
+        index: './src/index.js',
+        home: './src/video.js',
+    },
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: '[name]_[contenthash].js',
@@ -18,6 +21,7 @@ module.exports = {
         alias: {
             '@images': path.resolve(__dirname, 'src/assets/images'),
             '@styles': path.resolve(__dirname, 'src/styles'),
+            '@auron': path.resolve(__dirname, 'src/assets/videos')
         }
     },
     module: {
@@ -46,14 +50,27 @@ module.exports = {
                 generator: {
                     filename: 'assets/fonts/[name]_[hash][ext]'
                 }
-            }
+            },
+            {
+                test: /\.(mp4)$/,
+                type: 'asset/resource',
+                generator: {
+                    filename: 'assets/videos/[name]_[contenthash][ext]',
+                }
+            },
         ]
     },
     plugins: [
         new HtmlWebpackPlugin({
             inject: 'body',
             template: './public/index.html',
-            filename: './index.html'
+            filename: './index.html',
+            chunks: ['index']
+        }),
+        new HtmlWebpackPlugin({
+            template: './public/video.html',
+            filename: 'video.html',
+            chunks: ['video']
         }),
         new MiniCssExtractPlugin({
             filename: 'styles/[name]_[contenthash].css',
